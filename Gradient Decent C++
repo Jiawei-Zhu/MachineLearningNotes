@@ -1,0 +1,72 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+int main()
+{
+	double theta[4];
+	theta[1] = 0.0625;
+	theta[0] = 0.5;
+	theta[2] = 0;
+	theta[3] = 0;
+	
+	void loss(double theta[4]);
+	loss(theta);
+	void printtheta(double *theta);
+	printtheta(theta);
+	void fitting(double *theta);
+	fitting(theta);
+	printtheta(theta);
+	loss(theta);
+	
+	
+	system("pause");
+	
+	return 0;
+}
+void loss(double theta[4])
+{
+	double J = 0;
+	double x = -8.0;
+	double h;
+	double y;
+	for (int i = 0; i <= 1000; i++)
+	{
+		h = theta[0] + theta[1] * x + theta[2] * pow(x, 2) + theta[3] * pow(x, 3);
+		y = 1.0 / (1.0 + exp(-x));
+		J = J + pow(h - y, 2);
+		x = x + 0.016;
+	};
+	cout <<"J=" <<J << endl;
+	
+};
+void fitting(double *theta)
+{
+	double x;
+	double h;
+	double y;
+	double alpha = exp(-17);
+	for (int turns = 0; turns <= 100000; turns++)
+	{
+		x = -8.0;
+		for (int i = 0; i <= 1000; i++)
+		{
+			h = theta[0] + theta[1] * x + theta[2] * pow(x, 2) + theta[3] * pow(x, 3);
+			y = 1.0 / (1.0 + exp(-x));
+
+			for (int j = 0; j <= 3; j++)
+			{
+				theta[j] = theta[j] - alpha * (h - y)*pow(x, j);
+			}
+
+			x = x + 0.016;
+		}
+
+	}
+
+	
+};
+void printtheta(double *theta)
+{
+	for (int num = 0; num <= 3; num++)
+		cout << "theta["<<num<<"]="<<theta[num] << endl;
+};
